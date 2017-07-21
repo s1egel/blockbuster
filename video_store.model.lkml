@@ -8,18 +8,18 @@ include: "*.dashboard"
 
 explore: inventory {
   join: store {
-    type: inner
+    type: left_outer
     sql_on: ${inventory.store_id} = ${store.store_id} ;;
     relationship: many_to_one
   }
   join: rental {
-    type: inner
+    type: left_outer
     sql_on: ${inventory.inventory_id} = ${rental.inventory_id} ;;
     relationship: many_to_one
   }
 
   join: address {
-    type: inner
+    type: left_outer
     sql_on: ${store.address_id} = ${address.address_id} ;;
     relationship: one_to_one
   }
@@ -27,25 +27,25 @@ explore: inventory {
 
 explore: payment {
   join: staff {
-    type: inner
+    type: left_outer
     sql_on: ${payment.staff_id} = ${staff.staff_id} ;;
     relationship: many_to_one
   }
 
   join: rental {
-    type: inner
+    type: left_outer
     sql_on: ${payment.rental_id} = ${rental.rental_id} ;;
     relationship: many_to_one
   }
 
   join: inventory {
-    type: inner
+    type: left_outer
     sql_on: ${rental.inventory_id} = ${inventory.inventory_id} ;;
     relationship: many_to_one
   }
 
   join: film {
-    type: inner
+    type: left_outer
     sql_on: ${inventory.film_id} = ${film.film_id};;
     relationship: many_to_one
   }
