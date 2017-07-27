@@ -23,9 +23,17 @@ explore: inventory {
     sql_on: ${store.address_id} = ${address.address_id} ;;
     relationship: one_to_one
   }
+
+  join: payment {
+    type: left_outer
+    sql_on: ${payment.rental_id} = ${rental.rental_id} ;;
+    relationship: many_to_one
+  }
 }
 
+
 explore: payment {
+  fields: [ALL_FIELDS*, -rental.days_overdue]
   join: staff {
     type: left_outer
     sql_on: ${payment.staff_id} = ${staff.staff_id} ;;
@@ -49,7 +57,14 @@ explore: payment {
     sql_on: ${inventory.film_id} = ${film.film_id};;
     relationship: many_to_one
   }
+
+  join: film_fact_table {
+    type: left_outer
+    sql_on: ${film.film_id} = ${film_fact_table.film_id} ;;
+    relationship: one_to_one
+  }
 }
+
 
 # explore: actor {}
 #

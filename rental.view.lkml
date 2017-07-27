@@ -61,6 +61,27 @@ view: rental {
     sql: ${TABLE}.return_date ;;
   }
 
+  dimension: days_overdue {
+    type: number
+    sql: TIMESTAMPDIFF(DAY, ${rental_date},
+                CASE WHEN ${return_date} IS NULL
+                     THEN NOW() ELSE ${return_date}
+                END);;
+  }
+
+  dimension: rental_overdue {
+    type: yesno
+    sql: ${days_overdue} > 14 ;;
+  }
+
+  measure: total_rentals_overdue {
+    type: count
+    filters: {
+      field: rental_overdue
+      value: "Yes"
+    }
+  }
+
   dimension: staff_id {
     type: yesno
     # hidden: yes
