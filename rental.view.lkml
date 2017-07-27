@@ -63,22 +63,31 @@ view: rental {
 
   dimension: days_overdue {
     type: number
-    sql: TIMESTAMPDIFF(DAY, ${rental_date},
-                CASE WHEN ${return_date} IS NULL
-                     THEN NOW() ELSE ${return_date}
-                END);;
+    sql: TIMESTAMPDIFF(DAY, ${rental_date},${return_date});;
   }
 
-  dimension: rental_overdue {
-    type: yesno
-    sql: ${days_overdue} > 14 ;;
+  dimension: rental_status {
+    type: string
+    sql: CASE
+           WHEN ${days_overdue} > 14 THEN "Overdue"
+           WHEN ${return_date} IS NULL THEN "Not Returned"
+           ELSE "Returned"
+         END;;
   }
 
   measure: total_rentals_overdue {
     type: count
     filters: {
-      field: rental_overdue
-      value: "Yes"
+      field: rental_status
+      value: "Overdue"
+    }
+  }
+
+  measure: total_rentals_not_returned {
+    type: count
+    filters: {
+      field: rental_status
+      value: "Not Returned"
     }
   }
 
