@@ -27,6 +27,19 @@ view: inventory {
     sql: ${TABLE}.last_update ;;
   }
 
+  dimension: days_in_inventory {
+    description: "days between created and sold date"
+    type: number
+    sql: TIMESTAMPDIFF(DAY, ${last_update_date}, '2006-12-31' ) ;;
+  }
+
+  dimension: days_in_inventory_tier {
+    type: tier
+    sql: ${days_in_inventory} ;;
+    style: integer
+    tiers: [0, 5, 10, 20, 40, 80, 160, 360, 720]
+  }
+
   dimension: store_id {
     type: yesno
     # hidden: yes
@@ -35,6 +48,6 @@ view: inventory {
 
   measure: count {
     type: count
-    drill_fields: [inventory_id, film.film_id, store.store_id, rental.count]
+    drill_fields: [inventory_id, film.title, days_in_inventory, days_in_inventory_tier]
   }
 }

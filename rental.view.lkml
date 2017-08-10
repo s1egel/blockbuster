@@ -81,6 +81,13 @@ view: rental {
       field: rental_status
       value: "Overdue"
     }
+    drill_fields: [
+      customer.full_name
+      , customer.email
+      , film.title
+      , rental_date
+      , return_date
+      , days_overdue]
   }
 
   measure: total_rentals_not_returned {
@@ -89,11 +96,18 @@ view: rental {
       field: rental_status
       value: "Not Returned"
     }
+    drill_fields: [
+      customer.full_name
+    , customer.email
+    , film.title
+    , rental_date
+    , return_date
+    , days_overdue]
   }
 
   dimension: staff_id {
-    type: yesno
-    # hidden: yes
+    type: number
+    hidden: yes
     sql: ${TABLE}.staff_id ;;
   }
 
@@ -105,16 +119,12 @@ view: rental {
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
-      rental_id,
-      inventory.inventory_id,
-      customer.customer_id,
-      customer.first_name,
-      customer.last_name,
-      staff.staff_id,
-      staff.first_name,
-      staff.last_name,
-      staff.username,
-      payment.count
+      customer.full_name
+    , customer.email
+    , film.title
+    , rental_date
+    , return_date
+    , payment.amount
     ]
   }
 }

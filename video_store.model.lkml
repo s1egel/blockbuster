@@ -7,6 +7,7 @@ include: "*.view"
 include: "*.dashboard"
 
 explore: inventory {
+  fields: [ALL_FIELDS *, -payment.months_since_signup]
   join: store {
     type: left_outer
     sql_on: ${inventory.store_id} = ${store.store_id} ;;
@@ -33,6 +34,7 @@ explore: inventory {
 
 
 explore: payment {
+  label: "Payments & Customers"
   fields: [ALL_FIELDS*, -rental.days_overdue]
   join: staff {
     type: left_outer
@@ -52,6 +54,18 @@ explore: payment {
     relationship: many_to_one
   }
 
+  join: store {
+    type: left_outer
+    sql_on: ${inventory.store_id} = ${store.store_id} ;;
+    relationship: many_to_one
+  }
+
+  join: address {
+    type: left_outer
+    sql_on: ${store.address_id} = ${address.address_id} ;;
+    relationship: one_to_one
+  }
+
   join: film {
     type: left_outer
     sql_on: ${inventory.film_id} = ${film.film_id};;
@@ -63,8 +77,32 @@ explore: payment {
     sql_on: ${film.film_id} = ${film_fact_table.film_id} ;;
     relationship: one_to_one
   }
-}
 
+  join: film_category {
+    type: left_outer
+    sql_on: ${film.film_id} = ${film_category.film_id} ;;
+    relationship: many_to_one
+  }
+
+  join: category {
+    type: left_outer
+    sql_on: ${category.category_id} = ${film_category.category_id} ;;
+    relationship: one_to_one
+  }
+
+  join: customer {
+    type: left_outer
+    sql_on: ${payment.customer_id} = ${customer.customer_id} ;;
+    relationship: many_to_one
+  }
+
+  join: user_rental_facts {
+    type: left_outer
+    sql_on: ${payment.customer_id} = ${user_rental_facts.customer_id} ;;
+    relationship: many_to_one
+  }
+
+}
 
 # explore: actor {}
 #

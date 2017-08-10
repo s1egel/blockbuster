@@ -35,6 +35,39 @@ view: customer {
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
+
+    link: {
+      label: "User Lookup Dashboard"
+      url: "http://demo.looker.com/dashboards/160?Email={{ value | encode_uri }}"
+      icon_url: "http://www.looker.com/favicon.ico"
+    }
+    action: {
+      label: "Email Promotion to Customer"
+      url: "https://desolate-refuge-53336.herokuapp.com/posts"
+      icon_url: "https://sendgrid.com/favicon.ico"
+      param: {
+        name: "some_auth_code"
+        value: "abc123456"
+      }
+      form_param: {
+        name: "Subject"
+        required: yes
+        default: "Hey there {{ customer.full_name._value }}"
+      }
+      form_param: {
+        name: "Body"
+        type: textarea
+        required: yes
+        default:
+        "Dear {{ customer.full_name._value }},
+
+        Looks like you haven't made a rental in a while!  We'd like to offer you a 10% discount
+        on your next rental!  Just use the code RENTME when checking out!
+
+        Your friends at B. Blockbuster"
+      }
+    }
+    required_fields: [full_name, first_name]
   }
 
   dimension: first_name {
@@ -45,6 +78,11 @@ view: customer {
   dimension: last_name {
     type: string
     sql: ${TABLE}.last_name ;;
+  }
+
+  dimension: full_name {
+    type: string
+    sql: CONCAT(${first_name}," ",${last_name}) ;;
   }
 
   dimension_group: last_update {

@@ -37,6 +37,13 @@ view: film {
     sql: ${TABLE}.length ;;
   }
 
+  dimension: length_range {
+    type: tier
+    tiers:[0,31,61,91,121,151,181,211]
+    style: integer
+    sql: ${length} ;;
+  }
+
   dimension: original_language_id {
     type: yesno
     sql: ${TABLE}.original_language_id ;;

@@ -58,6 +58,11 @@ view: payment {
     sql: ${TABLE}.staff_id ;;
   }
 
+  dimension: months_since_signup {
+    type: number
+    sql: TIMESTAMPDIFF(MONTH, ${payment_raw}, ${customer.create_raw} ) ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
