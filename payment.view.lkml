@@ -3,6 +3,7 @@ view: payment {
 
   dimension: payment_id {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.payment_id ;;
   }
@@ -14,12 +15,13 @@ view: payment {
 
   dimension: customer_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.customer_id ;;
   }
 
   dimension_group: last_update {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -48,13 +50,13 @@ view: payment {
 
   dimension: rental_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.rental_id ;;
   }
 
   dimension: staff_id {
     type: yesno
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.staff_id ;;
   }
 

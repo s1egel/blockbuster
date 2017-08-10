@@ -3,6 +3,7 @@ view: film {
 
   dimension: film_id {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.film_id ;;
   }
@@ -14,12 +15,13 @@ view: film {
 
   dimension: language_id {
     type: yesno
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.language_id ;;
   }
 
   dimension_group: last_update {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -45,7 +47,8 @@ view: film {
   }
 
   dimension: original_language_id {
-    type: yesno
+    type: number
+    hidden: yes
     sql: ${TABLE}.original_language_id ;;
   }
 

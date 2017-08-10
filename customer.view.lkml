@@ -3,6 +3,7 @@ view: customer {
 
   dimension: customer_id {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.customer_id ;;
   }
@@ -14,7 +15,7 @@ view: customer {
 
   dimension: address_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.address_id ;;
   }
 
@@ -36,13 +37,8 @@ view: customer {
     type: string
     sql: ${TABLE}.email ;;
 
-    link: {
-      label: "User Lookup Dashboard"
-      url: "http://demo.looker.com/dashboards/160?Email={{ value | encode_uri }}"
-      icon_url: "http://www.looker.com/favicon.ico"
-    }
     action: {
-      label: "Email Promotion to Customer"
+      label: "Send Promotional Email"
       url: "https://desolate-refuge-53336.herokuapp.com/posts"
       icon_url: "https://sendgrid.com/favicon.ico"
       param: {
@@ -68,15 +64,47 @@ view: customer {
       }
     }
     required_fields: [full_name, first_name]
+
+    action: {
+      label: "Send Overdue Rental Email"
+      url: "https://desolate-refuge-53336.herokuapp.com/posts"
+      icon_url: "https://sendgrid.com/favicon.ico"
+      param: {
+        name: "some_auth_code"
+        value: "abc123456"
+      }
+      form_param: {
+        name: "Subject"
+        required: yes
+        default: "Hey there {{ customer.full_name._value }}"
+      }
+      form_param: {
+        name: "Body"
+        type: textarea
+        required: yes
+        default:
+        "Dear {{ customer.full_name._value }},
+
+        We are writing to let you know that you have an overdue video rental.
+        In order to prevent any overdue charges, please return your video rental as soon as possible.
+
+        Your friends at B. Blockbuster"
+      }
+    }
+    required_fields: [full_name, first_name]
   }
+
+
 
   dimension: first_name {
     type: string
+    hidden: yes
     sql: ${TABLE}.first_name ;;
   }
 
   dimension: last_name {
     type: string
+    hidden: yes
     sql: ${TABLE}.last_name ;;
   }
 
@@ -87,6 +115,7 @@ view: customer {
 
   dimension_group: last_update {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -101,7 +130,7 @@ view: customer {
 
   dimension: store_id {
     type: yesno
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.store_id ;;
   }
 

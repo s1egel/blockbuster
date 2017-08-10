@@ -3,19 +3,20 @@ view: rental {
 
   dimension: rental_id {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.rental_id ;;
   }
 
   dimension: customer_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.customer_id ;;
   }
 
   dimension: inventory_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.inventory_id ;;
   }
 
@@ -61,6 +62,12 @@ view: rental {
     sql: ${TABLE}.return_date ;;
   }
 
+  dimension: staff_id {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.staff_id ;;
+  }
+
   dimension: days_overdue {
     type: number
     sql: TIMESTAMPDIFF(DAY, ${rental_date},${return_date});;
@@ -90,6 +97,16 @@ view: rental {
       , days_overdue]
   }
 
+  measure: total_days_overdue {
+    type: sum
+    sql: ${days_overdue} ;;
+  }
+
+  measure: average_days_overdue {
+    type: average
+    sql: ${days_overdue} ;;
+  }
+
   measure: total_rentals_not_returned {
     type: count
     filters: {
@@ -103,12 +120,6 @@ view: rental {
     , rental_date
     , return_date
     , days_overdue]
-  }
-
-  dimension: staff_id {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.staff_id ;;
   }
 
   measure: count {

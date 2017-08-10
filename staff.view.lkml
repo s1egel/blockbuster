@@ -3,6 +3,7 @@ view: staff {
 
   dimension: staff_id {
     primary_key: yes
+    hidden: yes
     type: yesno
     sql: ${TABLE}.staff_id ;;
   }
@@ -14,7 +15,7 @@ view: staff {
 
   dimension: address_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.address_id ;;
   }
 
@@ -42,6 +43,7 @@ view: staff {
 
   dimension_group: last_update {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,
@@ -66,7 +68,7 @@ view: staff {
 
   dimension: store_id {
     type: yesno
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}.store_id ;;
   }
 

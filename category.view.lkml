@@ -1,14 +1,17 @@
 view: category {
   sql_table_name: sakila.category ;;
+  view_label: "Film Category"
 
   dimension: category_id {
     primary_key: yes
+    hidden: yes
     type: yesno
     sql: ${TABLE}.category_id ;;
   }
 
   dimension_group: last_update {
     type: time
+    hidden: yes
     timeframes: [
       raw,
       time,

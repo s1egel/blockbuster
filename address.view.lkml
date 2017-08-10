@@ -1,14 +1,21 @@
 view: address {
   sql_table_name: sakila.address ;;
+  view_label: "Store Address"
 
   dimension: address_id {
     primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.address_id ;;
   }
 
   dimension: address {
     type: string
+    link: {
+      label: "Store Management Dashboard"
+      url: "/dashboards/58?Store%20Filter={{ value }}"
+      icon_url: "http://looker.com/favicon.ico"
+    }
     sql: ${TABLE}.address ;;
   }
 
@@ -29,6 +36,7 @@ view: address {
   }
 
   dimension_group: last_update {
+    hidden: yes
     type: time
     timeframes: [
       raw,

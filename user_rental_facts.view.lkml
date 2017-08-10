@@ -55,6 +55,16 @@ view: user_rental_facts {
     sql: ${TABLE}.number_of_distinct_months_with_rentals ;;
   }
 
+  measure: average_customer_rentals {
+    type: average
+    sql: ${lifetime_rentals} ;;
+  }
+
+  measure: average_customer_revenue {
+    type: average
+    sql: ${lifetime_rentals} ;;
+  }
+
 
   set: detail {
     fields: [
